@@ -3,7 +3,7 @@
 class dependcheck
 {
 	private $checkcommand;
-	private $null;
+	public $null;
 	function __construct()
 	{
 		if(PHP_OS=='WINNT')
