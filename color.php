@@ -2,6 +2,7 @@
 //Compare two colors
 class color
 {
+	public $diff;
 	public function colordiff($ref_rgb,$rgb,$limit_low=0,$limit_high=35)
 	{
 			$r = ($rgb >> 16) & 0xFF;
@@ -14,7 +15,7 @@ class color
 			$gdiff=$g-$ref_g;
 			$bdiff=$b-$ref_b;
 			//echo dechex($rgb)."\n";
-			print_r(array('r'=>$rdiff,'g'=>$gdiff,'b'=>$bdiff));
+			$this->diff=array('r'=>$rdiff,'g'=>$gdiff,'b'=>$bdiff);
 			if($rdiff<$limit_low || $rdiff>$limit_high)
 				return false;
 			if($gdiff<$limit_low || $gdiff>$limit_high)
