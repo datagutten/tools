@@ -7,9 +7,11 @@ class DOMDocumentCustom extends DOMDocument
         //$this->registerNodeClass('DOMElement', 'XDOMElement');
     }
 
-	public function createElement_simple($tagName,$parent,$attributes='',$value='')
+	public function createElement_simple($tagName,$parent,$attributes='',$value=false)
 	{
-		$element=$this->createElement($tagName,$value);
+		$element=$this->createElement($tagName);
+		if($value!==false)
+			$element->appendChild($this->createTextNode($value)); //http://stackoverflow.com/questions/22956330/domdocumentcreateelement-unterminated-entity-reference
 		if(is_array($attributes))
 		{
 			foreach($attributes as $name=>$value)
