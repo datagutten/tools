@@ -7,7 +7,7 @@ class DOMDocumentCustom extends DOMDocument
         //$this->registerNodeClass('DOMElement', 'XDOMElement');
     }
 
-	public function createElement_simple($tagName,$parent,$attributes='',$value=false)
+	public function createElement_simple($tagName,$parent=false,$attributes='',$value=false)
 	{
 		$element=$this->createElement($tagName);
 		if($value!==false)
@@ -19,7 +19,8 @@ class DOMDocumentCustom extends DOMDocument
 				$element->setAttribute($name,$value);
 			}
 		}
-		$parent->appendChild($element);
+		if($parent!==false)
+			$parent->appendChild($element);
 		return $element;
 	}
 }
