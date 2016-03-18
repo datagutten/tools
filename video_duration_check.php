@@ -37,7 +37,7 @@ class video_duration_check extends video
 		if($duration_file===false)
 		{
 			$this->error='Unable to find duration for '.$file;
-			return true;
+			return;
 		}
 		if(!$this->check_duration($duration_file,$duration_reference))
 		{
