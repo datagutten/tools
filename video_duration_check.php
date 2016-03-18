@@ -25,13 +25,13 @@ class video_duration_check extends video
 		if(!file_exists($file)) 
 		{
 			$this->error="The file $file does not exist";
-			return false; 
+			return;
 		}
 		if(filesize($file)==0) //Sjekk om filen er tom
 		{
 			$this->error='Empty file';
 			unlink($file);
-			return false;
+			return;
 		}
 		$duration_file=$this->duration($file); //Get file duration
 		if($duration_file===false)
