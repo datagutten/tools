@@ -5,22 +5,33 @@ class pdo_helper extends PDO
 	function __construct() //Override parent constructur
 	{
 	}
-	function connect_db($db_host,$db_name,$db_user,$db_password,$persistent=false)
+	function connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent=false,$charset=false)
 	{
 		if($persistent!==false)
 			$options=array(PDO::ATTR_PERSISTENT => true);
 		else
 			$options=NULL;
-		$this->db = parent::__construct("mysql:host=$db_host;dbname=$db_name",$db_user,$db_password,$options);
+		if($charset!==false)
+			$charset=';charset='.$charset;
+		else
+			$charset='';
+		$this->db = parent::__construct("$db_type:host=$db_host;dbname=$db_name$charset",$db_user,$db_password,$options);
 	}
-	function connect_db_config()
+	function connect_db_config($file=false)
 	{
-		require 'config_db.php';
+		if($file===false)
+			require 'config_db.php';
+		else
+			require $file;
 		if(!isset($persistent))
 			$persistent=false;
-		return $this->connect_db($db_host,$db_name,$db_user,$db_password,$persistent);
+		if(!isset($db_type))
+			$db_type='mysql';
+		if(!isset($charset))
+			$charset=false;
+		return $this->connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent,$charset);
 	}
-	function query($q,$fetch='all',&$timing=false)
+	function query($q,$fetch=false,&$timing=false)
 	{
 		$start=time();
 		$st=parent::query($q);
@@ -38,7 +49,6 @@ class pdo_helper extends PDO
 			return $st;
 		else
 			return $this->fetch($st,$fetch);
-		
 	}
 	function execute($st,$parameters,$fetch=false)
 	{
@@ -49,8 +59,9 @@ class pdo_helper extends PDO
 			throw new Exception("SQL error: {$errorinfo[2]}");
 			return false;
 		}
-		else
-			return $this->fetch($st,$fetch);
+		if($st->rowCount()==0)
+			return;
+		return $this->fetch($st,$fetch);
 	}
 	function fetch($st,$type)
 	{
