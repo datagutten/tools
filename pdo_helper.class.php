@@ -72,6 +72,8 @@ class pdo_helper extends PDO
 		elseif($type=='all')
 			return $st->fetchAll(PDO::FETCH_ASSOC);
 		elseif($type=='all_column')
-			return $st->fetchAll(PDO::FETCH_COLUMN);	
+			return $st->fetchAll(PDO::FETCH_COLUMN);
+		else
+			throw new Exception('Invalid fetch: '.$type);
 	}
 }
