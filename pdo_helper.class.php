@@ -41,31 +41,26 @@ class pdo_helper extends PDO
 		if($st===false)
 		{
 			$errorinfo=$this->errorInfo();
-			//trigger_error("SQL error: {$errorinfo[2]}",E_USER_WARNING);
 			throw new Exception("SQL error: {$errorinfo[2]}");
-			//return false;
 		}
-		elseif($fetch===false)
-			return $st;
-		else
-			return $this->fetch($st,$fetch);
+		return $this->fetch($st,$fetch);
 	}
 	function execute($st,$parameters,$fetch=false)
 	{
 		if($st->execute($parameters)===false)
 		{
 			$errorinfo=$st->errorInfo();
-			//trigger_error("SQL error: {$errorinfo[2]}",E_USER_WARNING);
 			throw new Exception("SQL error: {$errorinfo[2]}");
-			return false;
 		}
-		if($st->rowCount()==0)
-			return;
 		return $this->fetch($st,$fetch);
 	}
 	function fetch($st,$type)
 	{
-		if($type=='assoc')
+		if($type===false)
+			return $st;
+		elseif($st->rowCount()==0)
+			return;
+		elseif($type=='assoc')
 			return $st->fetch(PDO::FETCH_ASSOC);
 		elseif($type=='column')
 			return $st->fetch(PDO::FETCH_COLUMN);
