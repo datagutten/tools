@@ -1,8 +1,14 @@
 <?Php
+
+/** @noinspection PhpSignatureMismatchDuringInheritanceInspection */
+
 class pdo_helper extends PDO
 {
 	public $locale_path;
-	function __construct() //Override parent constructur
+	public $db;
+
+    /** @noinspection PhpMissingParentConstructorInspection */
+    function __construct() //Override parent constructor
 	{
 	}
 	function connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent=false,$charset=false)
@@ -31,7 +37,9 @@ class pdo_helper extends PDO
 			$charset=false;
 		return $this->connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent,$charset);
 	}
-	function query($q,$fetch=false,&$timing=false)
+
+    /** @noinspection PhpSignatureMismatchDuringInheritanceInspection */
+    function query($q, $fetch=false, &$timing=false)
 	{
 		$start=time();
 		$st=parent::query($q);
@@ -45,7 +53,15 @@ class pdo_helper extends PDO
 		}
 		return $this->fetch($st,$fetch);
 	}
-	function execute($st,$parameters,$fetch=false)
+
+    /**
+     * @param PDOStatement $st
+     * @param $parameters
+     * @param string $fetch Fetch type
+     * @return mixed
+     * @throws Exception
+     */
+    function execute($st, $parameters, $fetch=null)
 	{
 		if($st->execute($parameters)===false)
 		{
@@ -54,12 +70,19 @@ class pdo_helper extends PDO
 		}
 		return $this->fetch($st,$fetch);
 	}
-	function fetch($st,$type)
+
+    /**
+     * @param PDOStatement $st
+     * @param $type
+     * @throws Exception
+     * @return PDOStatement|array|string|null
+     */
+    function fetch($st, $type)
 	{
-		if($type===false)
+		if(empty($type))
 			return $st;
 		elseif($st->rowCount()==0)
-			return;
+			return null;
 		elseif($type=='assoc')
 			return $st->fetch(PDO::FETCH_ASSOC);
 		elseif($type=='column')
