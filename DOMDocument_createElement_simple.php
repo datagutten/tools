@@ -1,5 +1,4 @@
 <?Php
-//DOMDocument_createElement_simple
 class DOMDocumentCustom extends DOMDocument
 {
     function __construct($version = null, $encoding = null) {
@@ -7,7 +6,14 @@ class DOMDocumentCustom extends DOMDocument
         //$this->registerNodeClass('DOMElement', 'XDOMElement');
     }
 
-	public function createElement_simple($tagName,$parent=false,$attributes='',$value=false)
+    /**
+     * @param string $tagName tag name
+     * @param DOMElement $parent parent element
+     * @param array $attributes element attributes
+     * @param string $value element value
+     * @return DOMElement
+     */
+    public function createElement_simple($tagName, $parent=null, $attributes=null, $value='')
 	{
 		$element=$this->createElement($tagName);
 		if($value!==false && is_string($value))
@@ -19,9 +25,8 @@ class DOMDocumentCustom extends DOMDocument
 				$element->setAttribute($name,$value);
 			}
 		}
-		if($parent!==false)
+		if(!empty($parent))
 			$parent->appendChild($element);
 		return $element;
 	}
 }
-?>
