@@ -8,4 +8,3 @@ function filnavn($tittel)
 		$filnavn=utf8_decode($filnavn);
 	return $filnavn;
 }
-?>

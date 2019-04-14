@@ -39,4 +39,3 @@ class color
 		return $im_out;
 	}
 }
-?>
