@@ -1,5 +1,5 @@
 <?Php
-
+/** @noinspection PhpIncludeInspection */
 /** @noinspection PhpSignatureMismatchDuringInheritanceInspection */
 
 class pdo_helper extends PDO
@@ -11,35 +11,70 @@ class pdo_helper extends PDO
     function __construct() //Override parent constructor
 	{
 	}
-	function connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent=false,$charset=false)
+
+    /**
+     * @param string $db_host Database host
+     * @param string $db_name Database name
+     * @param string $db_user Database user
+     * @param string $db_password Database passord
+     * @param string $db_type Database Password
+     * @param bool $persistent Persistent database connection
+     * @param string $charset Database charset
+     */
+	function connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent=false,$charset=null)
 	{
 		if($persistent!==false)
 			$options=array(PDO::ATTR_PERSISTENT => true);
 		else
 			$options=NULL;
-		if($charset!==false)
+		if(!empty($charset))
 			$charset=';charset='.$charset;
 		else
 			$charset='';
 		$this->db = parent::__construct("$db_type:host=$db_host;dbname=$db_name$charset",$db_user,$db_password,$options);
 	}
-	function connect_db_config($file=false)
+
+    /**
+     * Connect to database using config file
+     * @param string $file Config file
+     * @throws Exception
+     */
+	function connect_db_config($file=null)
 	{
-		if($file===false)
-			require 'config_db.php';
+		if(!empty($file))
+			$config = require 'config_db.php';
 		else
-			require $file;
-		if(!isset($persistent))
-			$persistent=false;
-		if(!isset($db_type))
-			$db_type='mysql';
+            $config = require $file;
+
+		if(empty($config))
+		    throw new Exception('Invalid config file');
+		if(!isset($config['db_persistent']))
+            $config['db_persistent']=false;
+		if(!isset($config['db_type']))
+			$config['db_type']='mysql';
 		if(!isset($charset))
-			$charset=false;
-		return $this->connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent,$charset);
+			$config['charset']=false;
+		return $this->connect_db(
+		    $config['db_host'],
+            $config['db_name'],
+            $config['db_user'],
+            $config['db_password'],
+            $config['db_type'],
+            $config['db_persistent'],
+            $config['db_charset']
+        );
 	}
 
-    /** @noinspection PhpSignatureMismatchDuringInheritanceInspection */
-    function query($q, $fetch=false, &$timing=false)
+    /**
+     * Run a database query
+     * @param string $q Query string
+     * @param string $fetch Fetch type
+     * @param int $timing query time
+     * @return PDOStatement|array|string|null
+     * @throws Exception
+     * @noinspection PhpSignatureMismatchDuringInheritanceInspection
+     */
+    function query($q, $fetch=null, &$timing=null)
 	{
 		$start=time();
 		$st=parent::query($q);
