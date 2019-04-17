@@ -16,7 +16,7 @@ class pdo_helper extends PDO
      * @param string $db_host Database host
      * @param string $db_name Database name
      * @param string $db_user Database user
-     * @param string $db_password Database passord
+     * @param string $db_password Database password
      * @param string $db_type Database Password
      * @param bool $persistent Persistent database connection
      * @param string $charset Database charset
@@ -83,8 +83,8 @@ class pdo_helper extends PDO
 		$timing=$end-$start;
 		if($st===false)
 		{
-			$errorinfo=$this->errorInfo();
-			throw new Exception("SQL error: {$errorinfo[2]}");
+			$error_info=$this->errorInfo();
+			throw new Exception("SQL error: {$error_info[2]}");
 		}
 		return $this->fetch($st,$fetch);
 	}
@@ -100,8 +100,8 @@ class pdo_helper extends PDO
 	{
 		if($st->execute($parameters)===false)
 		{
-			$errorinfo=$st->errorInfo();
-			throw new Exception("SQL error: {$errorinfo[2]}");
+			$error_info=$st->errorInfo();
+			throw new Exception("SQL error: {$error_info[2]}");
 		}
 		return $this->fetch($st,$fetch);
 	}
