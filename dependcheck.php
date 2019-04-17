@@ -13,70 +13,42 @@ class dependcheck
     /**
      * @var string The command to be used for testing
      */
-    private $checkcommand;
+    private $check_command;
     /**
      * @var string Where to send stdout to be silenced
      */
     public $null;
+
+    /**
+     * dependcheck constructor.
+     * Detects OS and sets correct null and check command
+     */
 	function __construct()
 	{
 		if(PHP_OS=='WINNT')
 		{
-			$this->checkcommand='where';
+			$this->check_command='where';
 			$this->null='NUL';
 		}
 		else
 		{
-			$this->checkcommand='which';
+			$this->check_command='which';
 			$this->null='/dev/null';	
 		}
 	}
 
     /**
-     * Check if a command is available
-     * @param $command
-     * @return bool
-     */
-    function check($command)
-    {
-        //stderr is redirected to NUL, so if a string is returned the command exists
-        if(shell_exec($this->checkcommand." $command 2>".$this->null)=='')
-            return false;
-        else
-            return true;
-    }
-
-    /**
      * Check if a command is available and throw exception if it is missing
-     * @param $command
+     * @param string $command Command to be checked
      * @throws DependencyFailedException
      */
-    function require($command)
+    function depend($command)
     {
-        if($this->check($command)===false)
+        //stderr is redirected to NUL, so if a string is returned the command exists
+        if(shell_exec($this->check_command." $command 2>".$this->null)=='')
             throw new DependencyFailedException($command);
     }
-
-    /**
-     * Old dependency check supporting array as argument
-     * @param string|array $check Command(s) to be checked
-     * @return array|bool Array with missing commands or true if everything is available
-     */
-    function depend($check)
-	{
-		$check=(array)$check;
-		$notfound=array();
-		foreach ($check as $command)
-		{		
-			if(shell_exec($this->checkcommand." $command 2>".$this->null)=='') //stderr is redirected to NUL, so if a string is returned the command exists
-				$notfound[]=$command; //Add it to the lists of commands not found
-		}
-		if(count($notfound)>0)
-			return $notfound;
-		else
-			return true;
-	}
 }
 /*Sample:
 $dependcheck=new dependcheck;
-var_dump($dependcheck->depend('mediainfo'));*/
+$dependcheck->depend('mediainfo');*/
