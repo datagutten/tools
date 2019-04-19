@@ -6,6 +6,9 @@
  * Time: 10:08
  */
 spl_autoload_register(function ($class_name) {
-    /** @noinspection PhpIncludeInspection */
-    include $class_name . '.php';
+    $valid_classes = array('color', 'dependcheck');
+    if(array_search($class_name, $valid_classes)!==false) {
+        /** @noinspection PhpIncludeInspection */
+        include __DIR__ . '/' . $class_name . '.php';
+    }
 });
