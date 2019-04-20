@@ -6,7 +6,7 @@
  * Time: 10:08
  */
 spl_autoload_register(function ($class_name) {
-    $valid_classes = array('color', 'dependcheck', 'FileNotFoundException');
+    $valid_classes = array('color', 'dependcheck', 'FileNotFoundException', 'pdo_helper');
     if(array_search($class_name, $valid_classes)!==false) {
         /** @noinspection PhpIncludeInspection */
         include __DIR__ . '/' . $class_name . '.php';
