@@ -52,7 +52,7 @@ class pdo_helper extends PDO
 		if(!isset($config['db_type']))
 			$config['db_type']='mysql';
 		if(!isset($charset))
-			$config['charset']=false;
+			$config['db_charset']=false;
 		return $this->connect_db(
 		    $config['db_host'],
             $config['db_name'],
