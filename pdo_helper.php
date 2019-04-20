@@ -36,7 +36,7 @@ class pdo_helper extends PDO
     /**
      * Connect to database using config file
      * @param string $file Config file
-     * @throws Exception
+     * @throws Exception|FileNotFoundException
      */
 	function connect_db_config($file=null)
 	{
