@@ -24,9 +24,9 @@ class pdo_helper extends PDO
 	function connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent=false,$charset=null)
 	{
 		if($persistent!==false)
-			$options=array(PDO::ATTR_PERSISTENT => true);
+			$options=array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 		else
-			$options=NULL;
+			$options=array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 		if(!empty($charset))
 			$charset=';charset='.$charset;
 		else
