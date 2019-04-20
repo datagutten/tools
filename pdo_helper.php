@@ -40,9 +40,11 @@ class pdo_helper extends PDO
      */
 	function connect_db_config($file=null)
 	{
-		if(!empty($file))
-			$config = require 'config_db.php';
-		else
+        if(empty($file))
+            $config = require 'config_db.php';
+        elseif(!file_exists($file))
+            throw new FileNotFoundException($file);
+        else
             $config = require $file;
 
 		if(empty($config))
