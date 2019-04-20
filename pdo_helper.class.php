@@ -4,7 +4,6 @@
 
 class pdo_helper extends PDO
 {
-	public $locale_path;
 	public $db;
 
     /** @noinspection PhpMissingParentConstructorInspection */
@@ -67,12 +66,11 @@ class pdo_helper extends PDO
 
     /**
      * Run a database query
-     * @param string $q Query string
-     * @param string $fetch Fetch type
+     * @param string $q SQL query
+     * @param string $fetch Fetch type, passed to fetch method
      * @param int $timing query time
      * @return PDOStatement|array|string|null
      * @throws Exception
-     * @noinspection PhpSignatureMismatchDuringInheritanceInspection
      */
     function query($q, $fetch=null, &$timing=null)
 	{
@@ -91,15 +89,16 @@ class pdo_helper extends PDO
 
     /**
      * @param PDOStatement $st
-     * @param $parameters
+     * @param array $input_parameters Arguments passed to PDOStatement::execute
      * @param string $fetch Fetch type
      * @return mixed
      * @throws Exception
      */
-    function execute($st, $parameters, $fetch=null)
+    function execute($st, $input_parameters, $fetch=null)
 	{
-		if($st->execute($parameters)===false)
-		{
+		if($st->execute($input_parameters)===false)
+        {
+		    //TODO: Is this needed when error mode exception is set?
 			$error_info=$st->errorInfo();
 			throw new Exception("SQL error: {$error_info[2]}");
 		}
@@ -108,9 +107,9 @@ class pdo_helper extends PDO
 
     /**
      * @param PDOStatement $st
-     * @param $type
-     * @throws Exception
+     * @param string $type Fetch style (assoc, column, all or all_column)
      * @return PDOStatement|array|string|null
+     * @throws Exception
      */
     function fetch($st, $type)
 	{
