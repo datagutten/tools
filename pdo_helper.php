@@ -69,24 +69,18 @@ class pdo_helper extends PDO
     /**
      * Run a database query
      * @param string $q SQL query
-     * @param string $fetch Fetch type, passed to fetch method
-     * @param int $timing query time
+     * @param string|int $fetch Fetch type, passed to fetch method
      * @return PDOStatement|array|string|null
-     * @throws Exception
+     * @throws PDOException
      */
-    function query($q, $fetch=null, &$timing=null)
+    function query($q, $fetch=null)
 	{
-		$start=time();
-		$st=parent::query($q);
-		$end=time();
-
-		$timing=$end-$start;
-		if($st===false)
-		{
-			$error_info=$this->errorInfo();
-			throw new Exception("SQL error: {$error_info[2]}");
-		}
-		return $this->fetch($st,$fetch);
+		if(is_integer($fetch))
+		    return parent::query($q, $fetch);
+		else {
+            $st = parent::query($q);
+            return $this->fetch($st, $fetch);
+        }
 	}
 
     /**
@@ -94,16 +88,11 @@ class pdo_helper extends PDO
      * @param array $input_parameters Arguments passed to PDOStatement::execute
      * @param string $fetch Fetch type
      * @return mixed
-     * @throws Exception
+     * @throws PDOException
      */
     function execute($st, $input_parameters, $fetch=null)
 	{
-		if($st->execute($input_parameters)===false)
-        {
-		    //TODO: Is this needed when error mode exception is set?
-			$error_info=$st->errorInfo();
-			throw new Exception("SQL error: {$error_info[2]}");
-		}
+		$st->execute($input_parameters);
 		return $this->fetch($st,$fetch);
 	}
 
@@ -111,7 +100,6 @@ class pdo_helper extends PDO
      * @param PDOStatement $st
      * @param string $type Fetch style (assoc, column, all or all_column)
      * @return PDOStatement|array|string|null
-     * @throws Exception
      */
     function fetch($st, $type)
 	{
@@ -128,6 +116,6 @@ class pdo_helper extends PDO
 		elseif($type=='all_column')
 			return $st->fetchAll(PDO::FETCH_COLUMN);
 		else
-			throw new Exception('Invalid fetch: '.$type);
+			throw new InvalidArgumentException('Invalid fetch: '.$type);
 	}
 }
