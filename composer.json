@@ -1,0 +1,15 @@
+{
+  "name": "datagutten/tools",
+  "description": "Tools used in my projects",
+  "license": "GPL-3.0-or-later",
+  "autoload": {
+    "classmap": [
+      "color.php",
+      "dependcheck.php",
+      "FileNotFoundException.php",
+      "color.php",
+      "pdo_helper.php"
+    ],
+    "files": ["filnavn.php"]
+  }
+}
