@@ -8,7 +8,8 @@
       "dependcheck.php",
       "FileNotFoundException.php",
       "color.php",
-      "pdo_helper.php"
+      "pdo_helper.php",
+      "DOMDocument_createElement_simple.php"
     ],
     "files": ["filnavn.php"]
   }
