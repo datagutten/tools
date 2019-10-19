@@ -1,8 +1,12 @@
 language: php
 
-os:
- - linux
- - windows
+jobs:
+ include:
+  - os: windows
+    language: generic
+  - os: linux
+    php: '7.3'
+
 
 addons:
  apt:
