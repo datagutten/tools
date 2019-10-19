@@ -6,9 +6,10 @@ matrix:
     language: sh
     before_install:
      - choco install php
+     - choco install composer
      - choco install ffmpeg
      - export PATH="/c/tools/php73:/c/Program Files (x86)/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
-     - php -r "copy('http://getcomposer.org/installer', 'composer-setup.php');"
+     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
      - php composer-setup.php
   - os: linux
     php: '7.3'
