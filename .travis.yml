@@ -8,7 +8,6 @@ matrix:
      - choco install php
      - choco install composer
      - choco install ffmpeg
-     - refreshenv
   - os: linux
     php: '7.3'
 
@@ -19,12 +18,16 @@ addons:
    - ffmpeg
 
 before_install:
+ - bash -c 'echo $TRAVIS_OS_NAME'
  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install php          ; fi
  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install ffmpeg       ; fi
  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install composer       ; fi
 
 install:
- - composer install --no-interaction
+ - if [ "$TRAVIS_OS_NAME" = "windows" ]; then php "C:\Program Files (x86)\ComposerSetup\bin\composer.phar" --no-interaction;
+  else composer install --no-interaction;
+  fi
+
 
 before_script:
  - vendor/bin/phpunit --version
