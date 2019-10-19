@@ -28,4 +28,12 @@ class dependcheckTest extends TestCase
         $tool = $dependcheck->select_tool(['XXX', 'ffmpeg']);
         $this->assertSame('ffmpeg', $tool);
     }
+
+    public function testNoToolsFound()
+    {
+        $this->expectException(DependencyFailedException::class);
+        $this->expectExceptionMessage('No valid tools found');
+        $dependcheck = new dependcheck();
+        $dependcheck->select_tool(['XXX', 'XXXX']);
+    }
 }
