@@ -22,7 +22,9 @@ before_install:
  - bash -c 'echo $TRAVIS_OS_NAME'
 
 install:
-  composer install --no-interaction
+ - if [ "$TRAVIS_OS_NAME" = "windows" ]; then php "/c/Program Files (x86)/ComposerSetup/bin/composer.phar" --no-interaction;
+  else composer install --no-interaction;
+  fi
 
 
 before_script:
