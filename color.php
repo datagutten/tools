@@ -3,6 +3,15 @@
 class color
 {
 	public $diff;
+
+    /**
+     * Check if a color is within the specified offset from a reference color
+     * @param int $ref_rgb Reference color
+     * @param int $rgb Color to be checked
+     * @param int $limit_low Minimum allowed offset to the reference color
+     * @param int $limit_high Maximal allowed offset to the reference color
+     * @return bool Return false if the color is not within limits
+     */
 	public function colordiff($ref_rgb,$rgb,$limit_low=0,$limit_high=35)
 	{
 			$r = ($rgb >> 16) & 0xFF;
@@ -24,6 +33,15 @@ class color
 				return false;
 			return true;
 	}
+
+    /**
+     * Remove colors not within the specified offset from a reference color
+     * @param $im resource Source image resource identifier
+     * @param int $ref_rgb Reference color
+     * @param int $limit_low Minimum allowed offset to the reference color
+     * @param int $limit_high Maximal allowed offset to the reference color
+     * @return resource Image with only colors within the limits left
+     */
 	public function colorfilter($im,$ref_rgb,$limit_low=0,$limit_high=35)
 	{
 		$im_out=imagecreatetruecolor(imagesx($im),imagesy($im));
