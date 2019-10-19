@@ -8,9 +8,9 @@ matrix:
      - choco install php
      - choco install composer
      - choco install ffmpeg
-     - export PATH="/c/tools/php73:/c/Program Files (x86)/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
-     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-     - php composer-setup.php
+     - export PATH="/c/tools/php73:/c/ProgramData/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
+     #- php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+     # - php composer-setup.php
   - os: linux
     php: '7.3'
 
@@ -24,7 +24,7 @@ before_install:
  - bash -c 'echo $TRAVIS_OS_NAME'
 
 install:
- - if [ "$TRAVIS_OS_NAME" = "windows" ]; then php "composer.phar" install --no-interaction;
+ - if [ "$TRAVIS_OS_NAME" = "windowsX" ]; then php "composer.phar" install --no-interaction;
   else composer install --no-interaction;
   fi
 
