@@ -48,6 +48,28 @@ class dependcheck
         if(shell_exec($this->check_command." $command 2>".$this->null)=='')
             throw new DependencyFailedException($command);
     }
+
+    /**
+     * @param array $tools Tools to be checked
+     * @return string First available tool
+     * @throws DependencyFailedException No valid tools found
+     */
+    public function select_tool($tools)
+    {
+        $depend_check = new dependcheck();
+        foreach ($tools as $tool)
+        {
+            try {
+                $depend_check->depend($tool);
+                return $tool;
+            }
+            catch (DependencyFailedException $e)
+            {
+                continue;
+            }
+        }
+        throw new DependencyFailedException('No valid tools found');
+    }
 }
 /*Sample:
 $dependcheck=new dependcheck;
