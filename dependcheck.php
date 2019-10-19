@@ -40,7 +40,7 @@ class dependcheck
     /**
      * Check if a command is available and throw exception if it is missing
      * @param string $command Command to be checked
-     * @throws DependencyFailedException
+     * @throws DependencyFailedException Command not found
      */
     function depend($command)
     {
