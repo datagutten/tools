@@ -1,9 +1,13 @@
 language: php
 
-jobs:
+matrix:
  include:
   - os: windows
-    language: generic
+    language: sh
+    before_install:
+     - choco install php
+     - choco install composer
+     - choco install ffmpeg
   - os: linux
     php: '7.3'
 
