@@ -20,14 +20,9 @@ addons:
 
 before_install:
  - bash -c 'echo $TRAVIS_OS_NAME'
- - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install php          ; fi
- - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install ffmpeg       ; fi
- - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install composer       ; fi
 
 install:
- - if [ "$TRAVIS_OS_NAME" = "windows" ]; then php "C:\Program Files (x86)\ComposerSetup\bin\composer.phar" --no-interaction;
-  else composer install --no-interaction;
-  fi
+  composer install --no-interaction
 
 
 before_script:
