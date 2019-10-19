@@ -1,0 +1,25 @@
+os:
+ - linux
+ - windows
+
+addons:
+ apt:
+  packages:
+   - ffmpeg
+
+before_install:
+ - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install php          ; fi
+ - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install ffmpeg       ; fi
+ - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install composer       ; fi
+
+install:
+ - composer install --no-interaction
+
+before_script:
+ - vendor/bin/phpunit --version
+
+script:
+ - vendor/bin/phpunit
+
+after_script:
+ - if [ "$TRAVIS_OS_NAME" = "linux" ]; then bash <(curl -s https://codecov.io/bash); fi
