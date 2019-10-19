@@ -8,6 +8,7 @@ matrix:
      - choco install php
      - choco install composer
      - choco install ffmpeg
+     - refreshenv
   - os: linux
     php: '7.3'
 
