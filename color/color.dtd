@@ -1,0 +1,4 @@
+<!ELEMENT color (reference, low, high)>
+        <!ELEMENT reference (#PCDATA)>
+        <!ELEMENT low (#PCDATA)>
+        <!ELEMENT high (#PCDATA)>

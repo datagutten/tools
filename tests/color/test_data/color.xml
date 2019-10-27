@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE color SYSTEM "color.dtd">
+<color>
+    <reference>0xfdfdfd</reference>
+    <low>-5</low>
+    <high>5</high>
+</color>
