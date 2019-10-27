@@ -4,6 +4,9 @@
 namespace datagutten\tools\color;
 
 
+use Exception;
+use SimpleXMLElement;
+
 class color
 {
     /**
@@ -58,5 +61,35 @@ class color
             }
         }
         return $im_out;
+    }
+
+    /**
+     * Check if an image has the specified colors at the specified positions
+     * @param resource $im Image to be searched
+     * @param SimpleXMLElement $xml XML containing positions and colors
+     * @return bool Return true if all positions are found, false if one is not matching
+     * @throws Exception Neither <position> or <positions> have a <color> child
+     */
+    public static function color_check_xml($im, $xml)
+    {
+        if(!empty($xml->{'positions'}->{'color'}))
+            $color_common = xml::parse_color($xml->{'positions'}->{'color'});
+
+        foreach ($xml->{'positions'}->{'position'} as $position)
+        {
+            $position = xml::parse_position($position);
+
+            if(empty($position['color']) && isset($color_common))
+                $position['color'] = $color_common;
+            elseif(!isset($color_common))
+                throw new Exception('Neither <position> or <positions> have a <color> child');
+
+            $color=imagecolorat($im,$position['x'],$position['y']);
+            $is_match = color::color_diff($position['color']['reference'], $color, $position['color']['low'], $position['color']['high'], $diff);
+
+            if(!$is_match)
+                return false;
+        }
+        return true;
     }
 }

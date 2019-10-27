@@ -19,4 +19,13 @@ class color_Test extends TestCase
         $this->assertSame(['r'=>-15, 'g'=>-10, 'b'=>-14], $diff);
         $this->assertFalse($result);
     }
+
+    public function testColorCheck()
+    {
+        $im = imagecreatetruecolor(700,700);
+        imagefill($im, 0,0, imagecolorallocate($im, 0xff, 0xfe, 0xfd));
+        $xml = simplexml_load_file(__DIR__.'/color/test_data/position_common_color.xml');
+        $result = color::color_check_xml($im, $xml);
+        $this->assertTrue($result);
+    }
 }
