@@ -4,10 +4,8 @@
   "license": "GPL-3.0-or-later",
   "autoload": {
     "classmap": [
-      "color.php",
       "dependcheck.php",
       "FileNotFoundException.php",
-      "color.php",
       "pdo_helper.php",
       "DOMDocument_createElement_simple.php"
     ],
