@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE positions SYSTEM "color.dtd">
+<positions>
+    <position x="500" y="600">
+        <color>
+            <reference>0xfdfdfd</reference>
+            <low>-5</low>
+            <high>5</high>
+        </color>
+    </position>
+    <position x="500" y="600" />
+    <color>
+        <reference>0xfdfdfd</reference>
+        <low>-5</low>
+        <high>5</high>
+    </color>
+</positions>
