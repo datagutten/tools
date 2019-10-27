@@ -18,16 +18,16 @@ class xmlTest extends TestCase
     public function testParsePosition()
     {
         $xml = simplexml_load_file(__DIR__.'/test_data/color_position.xml');
-        $color = xml::parse_color($xml->{'position'}->{'color'});
+        $color = xml::parse_color($xml->{'positions'}->{'position'}->{'color'});
         $position_ref = ['x'=>500, 'y'=>600, 'color'=>$color];
-        $position = xml::parse_position($xml->{'position'});
+        $position = xml::parse_position($xml->{'positions'}->{'position'});
         $this->assertSame($position_ref, $position);
     }
 
     public function testParsePositionNoColor()
     {
         $xml = simplexml_load_file(__DIR__.'/test_data/position_common_color.xml');
-        $position = $xml->xpath('/positions/position[2]')[0];
+        $position = $xml->xpath('./positions/position[2]')[0];
         $position_ref = ['x'=>500, 'y'=>600];
         $position = xml::parse_position($position);
         $this->assertSame($position_ref, $position);

@@ -1,3 +1,4 @@
+<!ELEMENT color_check (positions)>
 <!ELEMENT positions (position+,color?)>
         <!ELEMENT position (color?)>
         <!ATTLIST position x CDATA #REQUIRED>
