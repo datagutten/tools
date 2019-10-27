@@ -7,7 +7,7 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory>.</directory>
+            <directory>color</directory>
         </whitelist>
     </filter>
     <logging>
