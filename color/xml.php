@@ -16,6 +16,10 @@ class xml
      */
     public static function parse_color($color)
     {
+        $tag = $color->getName();
+        if($tag!=='color')
+            throw new InvalidArgumentException('Invalid tag: '.$tag);
+
         $color = (array)$color;
         $color['reference'] = hexdec($color['reference']);
         $color['low'] = intval($color['low']);
