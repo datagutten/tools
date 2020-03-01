@@ -67,11 +67,14 @@ class color
      * Check if an image has the specified colors at the specified positions
      * @param resource $im Image to be searched
      * @param SimpleXMLElement $xml XML containing positions and colors
+	 * @param bool $debug Show debug output
      * @return bool Return true if all positions are found, false if one is not matching
      * @throws Exception Neither <position> or <positions> have a <color> child
      */
-    public static function color_check_xml($im, $xml)
+    public static function color_check_xml($im, $xml, $debug=false)
     {
+    	if(!is_object($xml))
+    		throw new \InvalidArgumentException('Argument is not object');
         if(!empty($xml->{'positions'}->{'color'}))
             $color_common = xml::parse_color($xml->{'positions'}->{'color'});
 
@@ -86,6 +89,10 @@ class color
 
             $color=imagecolorat($im,$position['x'],$position['y']);
             $is_match = color::color_diff($position['color']['reference'], $color, $position['color']['low'], $position['color']['high'], $diff);
+            if($debug) {
+            	var_dump(dechex($color));
+				print_r($diff);
+			}
 
             if(!$is_match)
                 return false;
