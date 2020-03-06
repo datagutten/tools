@@ -5,7 +5,7 @@ matrix:
   - os: windows
     language: sh
     before_install:
-     - choco install php
+     - choco install php --version 7.3
      - choco install composer
      - choco install ffmpeg
      - export PATH="/c/tools/php73:/c/ProgramData/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
