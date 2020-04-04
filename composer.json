@@ -11,7 +11,8 @@
     ],
     "files": ["filnavn.php"],
     "psr-4": {
-      "datagutten\\tools\\color\\": "color"
+      "datagutten\\tools\\color\\": "color",
+      "datagutten\\tools\\files\\": "files"
     }
   },
   "require-dev": {
