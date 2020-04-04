@@ -29,17 +29,22 @@ class files
      * Get valid files in all sub folders
      * @param string $folder Folder to search
      * @param array $extensions Valid extensions
-     * @return array Files
+     * @param bool $recursive
+     * @return array Find files in sub folders
      */
-    public static function get_files($folder, $extensions)
+    public static function get_files($folder, $extensions, $recursive = true)
     {
         $files = [];
         foreach(scandir($folder) as $file)
         {
             if($file[0]=='.')
                 continue;
-            if(is_dir($folder.'/'.$file))
-                $files = array_merge($files, self::get_files($folder.'/'.$file, $extensions));
+            if(is_dir($folder.'/'.$file)) {
+                if($recursive)
+                    $files = array_merge($files, self::get_files($folder . '/' . $file, $extensions));
+                else
+                    continue;
+            }
             else
             {
                 $extension = pathinfo($file, PATHINFO_EXTENSION);
