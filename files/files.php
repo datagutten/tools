@@ -4,6 +4,8 @@
 namespace datagutten\tools\files;
 
 
+use FileNotFoundException;
+
 class files
 {
     /**
@@ -31,11 +33,19 @@ class files
      * @param array $extensions Valid extensions
      * @param bool $recursive
      * @return array Find files in sub folders
+     * @throws FileNotFoundException Folder not found
      */
     public static function get_files($folder, $extensions, $recursive = true)
     {
+        if(!file_exists($folder))
+            throw new FileNotFoundException($folder);
         $files = [];
-        foreach(scandir($folder) as $file)
+        $dir = @scandir($folder);
+        if($dir===false) {
+            $error = error_get_last();
+            throw new \Exception($error['message']);
+        }
+        foreach($dir as $file)
         {
             if($file[0]=='.')
                 continue;
