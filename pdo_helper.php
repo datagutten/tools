@@ -5,6 +5,10 @@
 class pdo_helper extends PDO
 {
 	public $db;
+    /**
+     * @var string Database name
+     */
+	public $db_name;
 
     /** @noinspection PhpMissingParentConstructorInspection */
     function __construct() //Override parent constructor
@@ -30,6 +34,7 @@ class pdo_helper extends PDO
 			$charset=';charset='.$charset;
 		else
 			$charset='';
+		$this->db_name = $db_name;
 		$this->db = parent::__construct("$db_type:host=$db_host;dbname=$db_name$charset",$db_user,$db_password,$options);
 	}
 
