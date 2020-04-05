@@ -82,10 +82,13 @@ class color
         {
             $position = xml::parse_position($position);
 
-            if(empty($position['color']) && isset($color_common))
-                $position['color'] = $color_common;
-            elseif(!isset($color_common))
-                throw new Exception('Neither <position> or <positions> have a <color> child');
+            if(empty($position['color']))
+            {
+                if(isset($color_common))
+                    $position['color'] = $color_common;
+                else
+                    throw new Exception('Neither <position> or <positions> have a <color> child');
+            }
 
             $color=imagecolorat($im,$position['x'],$position['y']);
             $is_match = color::color_diff($position['color']['reference'], $color, $position['color']['low'], $position['color']['high'], $diff);
