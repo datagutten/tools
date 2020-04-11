@@ -4,7 +4,11 @@
 namespace datagutten\tools\files;
 
 
-use FileNotFoundException;
+use FilesystemIterator;
+use InvalidArgumentException;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SplFileInfo;
 
 class files
 {
@@ -16,13 +20,14 @@ class files
     public static function sub_folders($path)
     {
         $folders = [];
-        foreach(scandir($path) as $folder)
-        {
-            if($folder[0]=='.')
+        /**
+         * @var $fileInfo SplFileInfo
+         */
+        foreach (new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS|FilesystemIterator::UNIX_PATHS) as $fileInfo) {
+            if(!$fileInfo->isDir())
                 continue;
-            if(!is_dir($path.'/'.$folder))
-                continue;
-            $folders[] = $folder;
+
+            $folders[] = $fileInfo->getPathname();
         }
         return $folders;
     }
@@ -33,36 +38,58 @@ class files
      * @param array $extensions Valid extensions
      * @param bool $recursive
      * @return array Find files in sub folders
-     * @throws FileNotFoundException Folder not found
      */
-    public static function get_files($folder, $extensions, $recursive = true)
+    public static function get_files($folder, $extensions = [], $recursive = true)
     {
-        if(!file_exists($folder))
-            throw new FileNotFoundException($folder);
         $files = [];
-        $dir = @scandir($folder);
-        if($dir===false) {
-            $error = error_get_last();
-            throw new \Exception($error['message']);
-        }
-        foreach($dir as $file)
+
+        if($recursive)
         {
-            if($file[0]=='.')
+            $directory = new RecursiveDirectoryIterator($folder, FilesystemIterator::SKIP_DOTS|FilesystemIterator::UNIX_PATHS);
+            $iterator = new RecursiveIteratorIterator($directory);
+        }
+        else
+            $iterator = new FilesystemIterator($folder, FilesystemIterator::SKIP_DOTS|FilesystemIterator::UNIX_PATHS);
+
+        /**
+         * @var $fileInfo SplFileInfo
+         */
+        foreach ($iterator as $fileInfo)
+        {
+            if(!empty($extensions) && array_search($fileInfo->getExtension(), $extensions)===false)
                 continue;
-            if(is_dir($folder.'/'.$file)) {
-                if($recursive)
-                    $files = array_merge($files, self::get_files($folder . '/' . $file, $extensions));
-                else
-                    continue;
-            }
-            else
-            {
-                $extension = pathinfo($file, PATHINFO_EXTENSION);
-                $extension = strtolower($extension);
-                if(array_search($extension, $extensions)!==false)
-                    $files[] = $folder.'/'.$file;
-            }
+            if($fileInfo->isDir())
+                continue;
+            $files[] = $fileInfo->getPathname();
         }
         return $files;
+    }
+
+    /**
+     * Find the first file in a directory
+     * @param string $dir Directory to be searched
+     * @param array $extensions Valid extensions
+     * @return string File name with path
+     */
+    public static function first_file($dir,$extensions = [])
+    {
+        //https://stackoverflow.com/questions/29102983/order-in-filesystemiterator/33550218
+        $files = iterator_to_array(new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS), true);
+        ksort($files);
+
+        /**
+         * @var $fileInfo SplFileInfo
+         */
+        //foreach (new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS|FilesystemIterator::UNIX_PATHS) as $fileInfo) {
+        foreach ($files as $fileInfo)
+        {
+            if(!$fileInfo->isFile())
+                continue;
+            if(!empty($extensions) && array_search($fileInfo->getExtension(), $extensions)===false)
+                continue;
+
+            return $fileInfo->getPathname();
+        }
+        throw new InvalidArgumentException('No file found');
     }
 }
