@@ -23,6 +23,7 @@ class pdo_helper extends PDO
      * @param string $db_type Database Password
      * @param bool $persistent Persistent database connection
      * @param string $charset Database charset
+     * @throws PDOException if the attempt to connect to the requested database fails.
      */
 	function connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent=false,$charset=null)
 	{
@@ -41,7 +42,8 @@ class pdo_helper extends PDO
     /**
      * Connect to database using config file
      * @param string $file Config file
-     * @throws Exception|FileNotFoundException
+     * @throws FileNotFoundException Specified config file not found
+     * @throws PDOException if the attempt to connect to the requested database fails.
      */
 	function connect_db_config($file=null)
 	{
@@ -53,7 +55,7 @@ class pdo_helper extends PDO
             $config = require $file;
 
 		if(empty($config))
-		    throw new Exception('Invalid config file');
+		    throw new RuntimeException('Invalid config file');
 		if(!isset($config['db_persistent']))
             $config['db_persistent']=false;
 		if(!isset($config['db_type']))
