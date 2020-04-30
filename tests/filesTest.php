@@ -79,6 +79,6 @@ class filesTest extends TestCase
     public function testSub_folders()
     {
         $folders = files::sub_folders(__DIR__.'/test_files');
-        $this->assertEquals([__DIR__.'/test_files/subdir1', __DIR__.'/test_files/subdir2'], $folders);
+        $this->assertEqualsCanonicalizing([__DIR__.'/test_files/subdir1', __DIR__.'/test_files/subdir2'], $folders);
     }
 }
