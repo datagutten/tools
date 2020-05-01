@@ -29,7 +29,9 @@ class filesTest extends TestCase
         $filesystem = new Filesystem();
         $filesystem->remove(__DIR__.'/test_files');
     }
-
+    /**
+     * @requires PHPUnit 7.0
+     */
     public function testGet_files()
     {
         $files = files::get_files(__DIR__.'/test_files', ['txt']);
@@ -38,6 +40,9 @@ class filesTest extends TestCase
         $this->assertEqualsCanonicalizing([__DIR__.'/test_files/test1.txt', __DIR__.'/test_files/test2.txt'], $files);
     }
 
+    /**
+     * @requires PHPUnit 7.0
+     */
     public function testGet_filesNoExtension()
     {
         $files = files::get_files(__DIR__.'/test_files');
@@ -52,6 +57,9 @@ class filesTest extends TestCase
         ], $files);
     }
 
+    /**
+     * @requires PHPUnit 7.0
+     */
     public function testGet_filesNoExtensionNoRecursion()
     {
         $files = files::get_files(__DIR__.'/test_files', [], false);
@@ -76,6 +84,9 @@ class filesTest extends TestCase
         files::first_file(__DIR__.'/test_files', ['mp3']);
     }
 
+    /**
+     * @requires PHPUnit 7.0
+     */
     public function testSub_folders()
     {
         $folders = files::sub_folders(__DIR__.'/test_files');
