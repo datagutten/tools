@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
+use UnexpectedValueException;
 
 class files
 {
@@ -38,6 +39,7 @@ class files
      * @param array $extensions Valid extensions
      * @param bool $recursive
      * @return array Find files in sub folders
+     * @throws UnexpectedValueException If the path cannot be found
      */
     public static function get_files($folder, $extensions = [], $recursive = true)
     {
