@@ -62,8 +62,9 @@ class files
                 continue;
             if($fileInfo->isDir())
                 continue;
-            $files[] = $fileInfo->getPathname();
+            $files[$fileInfo->getBasename()] = $fileInfo->getPathname();
         }
+        ksort($files);
         return $files;
     }
 
