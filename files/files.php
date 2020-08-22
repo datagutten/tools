@@ -36,9 +36,9 @@ class files
     /**
      * Get valid files in all sub folders
      * @param string $folder Folder to search
-     * @param array $extensions Valid extensions
-     * @param bool $recursive
-     * @return array Find files in sub folders
+     * @param array $extensions Extensions to find
+     * @param bool $recursive Search all sub folders
+     * @return array Array with absolute paths to files
      * @throws UnexpectedValueException If the path cannot be found
      */
     public static function get_files($folder, $extensions = [], $recursive = true)
