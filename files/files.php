@@ -95,4 +95,14 @@ class files
         }
         throw new InvalidArgumentException('No file found');
     }
+
+    /**
+     * Builds a file path with the appropriate directory separator.
+     * Same as os.path.join() in Python
+     * @param mixed $segments,... unlimited number of path segments
+     * @return string Path
+     */
+    public static function path_join(...$segments) {
+        return join(DIRECTORY_SEPARATOR, $segments);
+    }
 }

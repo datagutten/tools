@@ -92,4 +92,15 @@ class filesTest extends TestCase
         $folders = files::sub_folders(__DIR__.'/test_files');
         $this->assertEqualsCanonicalizing([__DIR__.'/test_files/subdir1', __DIR__.'/test_files/subdir2'], $folders);
     }
+
+    public function testJoin()
+    {
+        $folders = files::path_join('foo', 'bar', 'test');
+        if (PHP_OS == 'Linux') {
+            $this->assertEquals('foo/bar/test', $folders);
+        }
+        elseif (PHP_OS == 'WINNT') {
+            $this->assertEquals('foo\\bar\\test', $folders);
+        }
+    }
 }
