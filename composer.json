@@ -12,7 +12,8 @@
     "files": ["filnavn.php"],
     "psr-4": {
       "datagutten\\tools\\color\\": "color",
-      "datagutten\\tools\\files\\": "files"
+      "datagutten\\tools\\files\\": "files",
+      "datagutten\\tools\\": "src"
     }
   },
   "require-dev": {
@@ -21,6 +22,7 @@
   },
   "require": {
     "ext-simplexml": "*",
-    "ext-gd": "*"
+    "ext-gd": "*",
+    "ext-pdo": "*"
   }
 }
