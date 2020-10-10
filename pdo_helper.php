@@ -79,6 +79,7 @@ class pdo_helper extends PDO
      * @param string|int $fetch Fetch type, passed to fetch method
      * @return PDOStatement|array|string|null
      * @throws PDOException
+     * @deprecated Use PDO::query
      */
     function query($q, $fetch=null)
 	{
