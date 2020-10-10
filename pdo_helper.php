@@ -86,7 +86,7 @@ class pdo_helper extends PDO
 		    return parent::query($q, $fetch);
 		else {
             $st = parent::query($q);
-            return $this->fetch($st, $fetch);
+            return self::fetch($st, $fetch);
         }
 	}
 
@@ -96,11 +96,12 @@ class pdo_helper extends PDO
      * @param string $fetch Fetch type
      * @return mixed
      * @throws PDOException
+     * @deprecated Use default execute method of PDOStatement
      */
-    function execute($st, $input_parameters, $fetch=null)
+    public static function execute($st, $input_parameters, $fetch=null)
 	{
 		$st->execute($input_parameters);
-		return $this->fetch($st,$fetch);
+		return self::fetch($st,$fetch);
 	}
 
     /**
@@ -108,7 +109,7 @@ class pdo_helper extends PDO
      * @param string $type Fetch style (assoc, column, all or all_column)
      * @return PDOStatement|array|string|null
      */
-    function fetch($st, $type)
+    public static function fetch($st, $type)
 	{
 		if(empty($type))
 			return $st;
