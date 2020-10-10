@@ -18,6 +18,14 @@ class PDOConnectHelper
         else
             $options['db_charset'] = sprintf(';charset=%s', $options['db_charset']);
 
+        if($options['db_type']=='sqlite')
+        {
+            if(isset($options['db_file']))
+                return sprintf('sqlite:%s', $options['db_file']);
+            else
+                return 'sqlite::memory:';
+        }
+
         return sprintf('%s:host=%s;dbname=%s%s',
             $options['db_type'],
             $options['db_host'],
