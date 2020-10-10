@@ -40,7 +40,7 @@ class PDOConnectHelper
      */
     public static function connect_db_config(array $args)
     {
-        if ($args['db_persistent'] !== false)
+        if (!empty($args['db_persistent']) && $args['db_persistent'] !== false)
             $options = array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
         else
             $options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
