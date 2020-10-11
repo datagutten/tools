@@ -11,26 +11,30 @@ class PDOConnectHelper
 {
     public static function build_dsn($options)
     {
-        if (!isset($options['db_type']))
+        if (empty($options['db_type']))
             $options['db_type'] = 'mysql';
-        if (!isset($options['db_charset']))
-            $options['db_charset'] = '';
-        else
-            $options['db_charset'] = sprintf(';charset=%s', $options['db_charset']);
+
+        $dsn = $options['db_type'] .':';
 
         if($options['db_type']=='sqlite')
         {
-            if(isset($options['db_file']))
-                return sprintf('sqlite:%s', $options['db_file']);
+            if(!empty($options['db_file']))
+                $dsn .= $options['db_file'];
             else
-                return 'sqlite::memory:';
+                $dsn .=':memory:';
+            return $dsn;
         }
 
-        return sprintf('%s:host=%s;dbname=%s%s',
-            $options['db_type'],
-            $options['db_host'],
-            $options['db_name'],
-            $options['db_charset']);
+        if(!empty($options['db_host']))
+            $dsn .= sprintf('host=%s;', $options['db_host']);
+
+        if(!empty($options['db_name']))
+            $dsn .= sprintf('dbname=%s;', $options['db_name']);
+
+        if(!empty($options['db_charset']))
+            $dsn .= sprintf('charset=%s', $options['db_charset']);
+
+        return $dsn;
     }
 
     /**
