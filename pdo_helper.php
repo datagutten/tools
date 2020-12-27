@@ -74,38 +74,6 @@ class pdo_helper extends PDO
 	}
 
     /**
-     * Run a database query
-     * @param string $q SQL query
-     * @param string|int $fetch Fetch type, passed to fetch method
-     * @return PDOStatement|array|string|null
-     * @throws PDOException
-     * @deprecated Use PDO::query
-     */
-    function query($q, $fetch=null)
-	{
-		if(is_integer($fetch))
-		    return parent::query($q, $fetch);
-		else {
-            $st = parent::query($q);
-            return self::fetch($st, $fetch);
-        }
-	}
-
-    /**
-     * @param PDOStatement $st
-     * @param array $input_parameters Arguments passed to PDOStatement::execute
-     * @param string $fetch Fetch type
-     * @return mixed
-     * @throws PDOException
-     * @deprecated Use default execute method of PDOStatement
-     */
-    public static function execute($st, $input_parameters, $fetch=null)
-	{
-		$st->execute($input_parameters);
-		return self::fetch($st,$fetch);
-	}
-
-    /**
      * @param PDOStatement $st
      * @param string $type Fetch style (assoc, column, all or all_column)
      * @return PDOStatement|array|string|null
