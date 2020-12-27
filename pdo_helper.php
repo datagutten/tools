@@ -24,6 +24,7 @@ class pdo_helper extends PDO
      * @param bool $persistent Persistent database connection
      * @param string $charset Database charset
      * @throws PDOException if the attempt to connect to the requested database fails.
+     * @deprecated Use PDOConnectHelper::connect_db_config
      */
 	function connect_db($db_host,$db_name,$db_user,$db_password,$db_type,$persistent=false,$charset=null)
 	{
@@ -44,6 +45,7 @@ class pdo_helper extends PDO
      * @param string $file Config file
      * @throws FileNotFoundException Specified config file not found
      * @throws PDOException if the attempt to connect to the requested database fails.
+     * @deprecated Use PDOConnectHelper::connect_db_config
      */
 	function connect_db_config($file=null)
 	{
@@ -77,6 +79,7 @@ class pdo_helper extends PDO
      * @param PDOStatement $st
      * @param string $type Fetch style (assoc, column, all or all_column)
      * @return PDOStatement|array|string|null
+     * @deprecated Use fetch method from PDOStatement
      */
     public static function fetch($st, $type)
 	{
