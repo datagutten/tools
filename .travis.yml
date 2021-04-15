@@ -1,17 +1,18 @@
 language: php
 
-matrix:
+jobs:
   include:
     - os: windows
       language: shell
       before_install:
+        - choco config set cacheLocation $HOME/choco_cache
         - choco install --no-progress tests/packages.config
         - export PATH="/c/tools/php80:/c/ProgramData/ComposerSetup/bin/:$PATH"
         - cp tests/php-test.ini /c/tools/php80/php.ini
-        cache:
-          directories:
-            - $LOCALAPPDATA/Composer/files
-            - $HOME/choco_cache
+      cache:
+        directories:
+          - $LOCALAPPDATA/Composer/files
+          - $HOME/choco_cache
     - os: linux
       php: '7.1'
     - php: '7.2'
