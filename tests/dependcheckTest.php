@@ -12,21 +12,21 @@ class dependcheckTest extends TestCase
     public function testDepend()
     {
         $dependcheck = new dependcheck();
-        $dependcheck->depend('ffmpeg');
+        $dependcheck->depend('php');
     }
 
     public function testDependFail()
     {
         $this->expectException(DependencyFailedException::class);
         $dependcheck = new dependcheck();
-        $dependcheck->depend('ffmpegXXX');
+        $dependcheck->depend('phpXXX');
     }
 
     public function testSelect_tool()
     {
         $dependcheck = new dependcheck();
-        $tool = $dependcheck->select_tool(['XXX', 'ffmpeg']);
-        $this->assertSame('ffmpeg', $tool);
+        $tool = $dependcheck->select_tool(['XXX', 'php']);
+        $this->assertSame('php', $tool);
     }
 
     public function testNoToolsFound()
