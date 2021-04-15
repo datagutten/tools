@@ -14,6 +14,10 @@ matrix:
      - choco install --no-progress tests/packages.config
      - export PATH="/c/tools/php80:/c/ProgramData/ComposerSetup/bin/:$PATH"
      - cp tests/php-test.ini /c/tools/php80/php.ini
+     cache:
+       directories:
+         - $LOCALAPPDATA/Composer/files
+         - $HOME/choco_cache
   - os: linux
     php: '7.3'
   - php: '5.6'
@@ -23,28 +27,24 @@ matrix:
     before_script:
      - sed "s/. void//" --in-place tests/filesTest.php
   - php: 'nightly'
-    install:
-     - composer install --no-interaction --ignore-platform-reqs;
   - php: '7.4'
     name: 'Prefer lowest'
     install:
-     - composer install --no-interaction
      - composer update --prefer-lowest
 
  allow_failures:
-  - php: '5.6'
   - php: 'nightly'
 
-addons:
- apt:
-  packages:
-   - ffmpeg
+env:
+  global:
+    - XDEBUG_MODE=coverage
 
-before_install:
- - bash -c 'echo $TRAVIS_OS_NAME'
+cache:
+  directories:
+    - $HOME/.cache/composer/files
 
 install:
- - composer install --no-interaction;
+ - composer install --no-interaction
 
 before_script:
  - vendor/bin/phpunit --version
