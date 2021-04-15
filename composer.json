@@ -23,6 +23,7 @@
   "require": {
     "ext-simplexml": "*",
     "ext-gd": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "php": ">=7.1"
   }
 }
