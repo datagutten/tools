@@ -63,7 +63,7 @@ jobs:
         run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
       - name: Run tests
-        run: composer run-script test
+        run: vendor/bin/phpunit
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
