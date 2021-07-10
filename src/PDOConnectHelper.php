@@ -28,6 +28,9 @@ class PDOConnectHelper
         if(!empty($options['db_host']))
             $dsn .= sprintf('host=%s;', $options['db_host']);
 
+        if(!empty($options['db_port']))
+            $dsn .= sprintf('port=%s;', $options['db_port']);
+
         if(!empty($options['db_name']))
             $dsn .= sprintf('dbname=%s;', $options['db_name']);
 
@@ -40,6 +43,7 @@ class PDOConnectHelper
     /**
      * Creates a PDO instance representing a connection to a database using the following arguments as array:
      * db_host Database host
+     * db_port Database server port
      * db_name Database name
      * db_user Database user
      * db_password Database password
