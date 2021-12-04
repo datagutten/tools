@@ -9,6 +9,7 @@
         <whitelist>
             <directory>color</directory>
             <directory>files</directory>
+            <directory>src</directory>
         </whitelist>
     </filter>
     <logging>
