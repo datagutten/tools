@@ -92,6 +92,21 @@ class image
         return $this;
     }
 
+    /**
+     * Crop the image and return a new instance with the cropped image
+     * @param $x
+     * @param $y
+     * @param $width
+     * @param $height
+     * @return image
+     */
+    function crop_copy($x, $y, $width, $height): static
+    {
+        $im2 = static::create_true_color($width, $height);
+        imagecopy($im2->im, $this->im, 0, 0, $x, $y, $width, $height);
+        return $im2;
+    }
+
     public function resize($width, $height): static
     {
         $im2 = imagecreatetruecolor($width, $height);
