@@ -71,6 +71,7 @@ jobs:
         with:
           coverage: xdebug
           extensions: libxml, gd, pdo
+          php-version: '7.4'
 
       - name: Install dependencies
         run: composer update --prefer-lowest --no-progress
