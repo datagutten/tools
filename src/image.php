@@ -106,6 +106,11 @@ class image
         return imagepng($this->im, $file);
     }
 
+    public function jpeg(string $file = null): bool
+    {
+        return imagejpeg($this->im, $file);
+    }
+
     /**
      * Get the index of the color of a pixel
      * @param int $x x-coordinate of the point.
