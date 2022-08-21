@@ -18,10 +18,6 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
         experimental: [ false ]
         include:
-          - os: ubuntu-latest
-            ffmpeg_install: sudo apt-get install ffmpeg mediainfo
-          - os: windows-latest
-            ffmpeg_install: choco install --no-progress ffmpeg
           - php: 8.2
             os: ubuntu-latest
             experimental: true
@@ -43,9 +39,6 @@ jobs:
           key: ${{ runner.os }}-php${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php${{ matrix.php }}-
-
-      - name: Install ffmpeg
-        run: ${{ matrix.ffmpeg_install }}
 
       - name: Setup PHP with Xdebug
         uses: shivammathur/setup-php@v2
@@ -78,9 +71,6 @@ jobs:
         with:
           coverage: xdebug
           extensions: libxml, gd, pdo
-
-      - name: Install ffmpeg
-        run: sudo apt-get install ffmpeg
 
       - name: Install dependencies
         run: composer update --prefer-lowest --no-progress
