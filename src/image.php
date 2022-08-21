@@ -7,6 +7,7 @@ namespace datagutten\tools;
 use FileNotFoundException;
 use GdImage;
 use InvalidArgumentException;
+use RuntimeException;
 
 class image
 {
@@ -41,6 +42,26 @@ class image
     {
         $im = imagecreatetruecolor($width, $height);
         return new static($im);
+    }
+
+    /**
+     * Create image object from file
+     * @param string $file
+     * @return static
+     * @throws FileNotFoundException File not found
+     */
+    public static function from_file(string $file): static
+    {
+        if (!file_exists($file))
+            throw new FileNotFoundException($file);
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        if ($extension == 'jpg')
+            $extension = 'jpeg';
+        $function = sprintf('imagecreatefrom%s', $extension);
+        if (!function_exists($function))
+            throw new RuntimeException(sprintf('No function to create image from %s files (tried %s)', $extension, $function));
+        $im = call_user_func($function, $file);
+        return new static($im, $file);
     }
 
     /**
