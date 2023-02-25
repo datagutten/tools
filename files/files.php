@@ -20,11 +20,12 @@ class files
      */
     public static function sub_folders($path)
     {
+        $path = realpath($path);
         $folders = [];
         /**
          * @var $fileInfo SplFileInfo
          */
-        foreach (new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS|FilesystemIterator::UNIX_PATHS) as $fileInfo) {
+        foreach (new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS) as $fileInfo) {
             if(!$fileInfo->isDir())
                 continue;
 
@@ -43,15 +44,16 @@ class files
      */
     public static function get_files($folder, $extensions = [], $recursive = true)
     {
+        $folder = realpath($folder);
         $files = [];
 
         if($recursive)
         {
-            $directory = new RecursiveDirectoryIterator($folder, FilesystemIterator::SKIP_DOTS|FilesystemIterator::UNIX_PATHS);
+            $directory = new RecursiveDirectoryIterator($folder, FilesystemIterator::SKIP_DOTS);
             $iterator = new RecursiveIteratorIterator($directory);
         }
         else
-            $iterator = new FilesystemIterator($folder, FilesystemIterator::SKIP_DOTS|FilesystemIterator::UNIX_PATHS);
+            $iterator = new FilesystemIterator($folder, FilesystemIterator::SKIP_DOTS);
 
         /**
          * @var $fileInfo SplFileInfo
@@ -76,8 +78,9 @@ class files
      */
     public static function first_file($dir,$extensions = [])
     {
+        $dir = realpath($dir);
         //https://stackoverflow.com/questions/29102983/order-in-filesystemiterator/33550218
-        $files = iterator_to_array(new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS), true);
+        $files = iterator_to_array(new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS));
         ksort($files);
 
         /**
