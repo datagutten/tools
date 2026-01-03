@@ -8,9 +8,9 @@
  * Time: 15.02
  */
 
-class FileNotFoundException extends Exception
+class FileNotFoundException extends RuntimeException
 {
-    public function __construct($file, $code = 0, Exception $previous = null) {
+    public function __construct($file, $code = 0, ?Exception $previous = null) {
         $message = sprintf('File does not exist: %s', $file);
         parent::__construct($message, $code, $previous);
     }
