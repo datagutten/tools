@@ -6,7 +6,6 @@
     "classmap": [
       "dependcheck.php",
       "FileNotFoundException.php",
-      "pdo_helper.php",
       "DOMDocument_createElement_simple.php"
     ],
     "files": ["filnavn.php"],
