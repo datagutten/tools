@@ -47,7 +47,7 @@ class PDOConnectHelper
      * db_name Database name
      * db_user Database user
      * db_password Database password
-     * db_type Database Password
+     * db_type Database type
      * db_persistent Persistent database connection
      * db_charset Database charset
      * @param array $args Array with configuration parameters
@@ -63,5 +63,28 @@ class PDOConnectHelper
 
         $dsn = self::build_dsn($args);
         return new PDO($dsn, $args['db_user'], $args['db_password'], $options);
+    }
+
+    /**
+     * Creates a PDO instance representing a connection to a database using the following environment variables:
+     * SQL_HOST Database host
+     * SQL_PORT Database server port
+     * SQL_DATABASE Database name
+     * SQL_USER Database user
+     * SQL_PASSWORD Database password
+     * SQL_TYPE Database type
+     * @return PDO
+     * @throws PDOException if the attempt to connect to the requested database fails.
+     */
+
+    public static function connect_db_env(): PDO
+    {
+        $dsn = self::build_dsn([
+            'db_type' => getenv('SQL_TYPE') ?? 'mysql',
+            'db_host' => getenv('SQL_HOST') ?? 'localhost',
+            'db_port' => getenv('SQL_PORT') ?? 3306,
+            'db_name' => getenv('SQL_DATABASE') ?? null,
+        ]);
+        return new PDO($dsn, getenv('SQL_USER') ?? null, getenv('SQL_PASSWORD') ?? null);
     }
 }
