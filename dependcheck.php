@@ -2,7 +2,7 @@
 //Check if a shell command exists
 class DependencyFailedException extends Exception
 {
-    public function __construct($command, $code = 0, Exception $previous = null)
+    public function __construct($command, $code = 0, ?Exception $previous = null)
     {
         parent::__construct(sprintf('Missing required command: %s', $command), $code, $previous);
     }

@@ -116,12 +116,12 @@ class image
         return $this;
     }
 
-    public function png(string $file = null): bool
+    public function png(?string $file = null): bool
     {
         return imagepng($this->im, $file);
     }
 
-    public function jpeg(string $file = null): bool
+    public function jpeg(?string $file = null): bool
     {
         return imagejpeg($this->im, $file);
     }
