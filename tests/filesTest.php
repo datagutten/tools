@@ -117,4 +117,13 @@ class filesTest extends TestCase
             $this->assertEquals('foo\\bar\\test', $folders);
         }
     }
+
+    public function testFileName()
+    {
+        $name='test\\foo\\bar\\test';
+        $name_clean=filnavn($name);
+        $this->assertEquals('test-foo-bar-test', $name_clean);
+        if (PHP_OS == 'WINNT')
+            $this->assertEquals('ASCII', mb_detect_encoding($name_clean));
+    }
 }
